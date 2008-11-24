@@ -8,6 +8,16 @@ class PasswordUpdatesController < ApplicationController
     @password_update = PasswordUpdate.find( params[:id] ) 
   end
 
+  def update
+    @password_update = PasswordUpdate.find(params[:id]) 
+    
+    if @password_update.update_attributes( params[:password_update] )
+      redirect_to '/'
+    else
+      render :action => "edit" 
+    end
+  end
+  
   def create
     @password_update = PasswordUpdate.new(
         params[:password_update].merge(:password_required => false ) )
@@ -17,16 +27,6 @@ class PasswordUpdatesController < ApplicationController
       redirect_to edit_password_update_url( @password_update )
     else
       render :action => "new" 
-    end
-  end
-
-  def update
-    @password_update = PasswordUpdate.find(params[:id]) 
-    
-    if @password_update.update_attributes( params[:password_update] )
-      redirect_to '/'
-    else
-      render :action => "edit" 
     end
   end
   
